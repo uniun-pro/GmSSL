@@ -47,11 +47,16 @@
 #include <openssl/gmapi.h>
 #include <openssl/bfibe.h>
 #include <openssl/bb1ibe.h>
+#include <openssl/sm2.h>
 #include <openssl/sm9.h>
 #include <openssl/gmsaf.h>
 #include <openssl/gmsdf.h>
 #include <openssl/gmskf.h>
 #include <openssl/gmsof.h>
+#ifndef OPENSSL_NO_BASE58
+#include <openssl/base58.h>
+#endif
+
 
 int err_load_crypto_strings_int(void)
 {
@@ -138,6 +143,9 @@ int err_load_crypto_strings_int(void)
 # ifndef OPENSSL_NO_BB1IBE
         ERR_load_BB1IBE_strings() == 0 ||
 # endif
+# ifndef OPENSSL_NO_SM2
+        ERR_load_SM2_strings() == 0 ||
+# endif
 # ifndef OPENSSL_NO_SM9
         ERR_load_SM9_strings() == 0 ||
 # endif
@@ -152,6 +160,9 @@ int err_load_crypto_strings_int(void)
 # endif
 # ifndef OPENSSL_NO_SOF
         ERR_load_SOF_strings() == 0 ||
+# endif
+# ifndef OPENSSL_NO_BASE58
+        ERR_load_BASE58_strings() == 0 ||
 # endif
 #endif
         ERR_load_KDF_strings() == 0)

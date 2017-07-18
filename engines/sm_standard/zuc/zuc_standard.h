@@ -1,5 +1,5 @@
 /* ====================================================================
- * Copyright (c) 2016 The GmSSL Project.  All rights reserved.
+ * Copyright (c) 2015 - 2016 The GmSSL Project.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -46,45 +46,28 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * ====================================================================
  */
-/*
- * this file is to implement elliptic curve operations over extension
- * fields
- */
+#ifndef HEADER_ZUC_STANDARD_H
+#define HEADER_ZUC_STANDARD_H
 
+#include <openssl/opensslconf.h>
+#ifndef NO_GMSSL
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
-#include <openssl/bn.h>
-#include <openssl/err.h>
-#include <openssl/evp.h>
-#include <openssl/asn1.h>
+#include <string.h>
+#include <openssl/e_os2.h>
 
-
-typedef struct {
-	int security_bits;
-	int n_bits;
-	int p_bits;
-	int q_bits;
-} PAIRING_SEC;
-
-static PAIRING_SEC sec_tbl[] = {
-	/* k    |n|   |p|  |q| */
-	{ 80,  1024,  512, 160},
-	{112,  2048, 1024, 224},
-	{128,  3072, 1536, 256},
-	{192,  7680, 3840, 384},
-	{256, 15360, 7680, 512}
-};
-
-const EVP_MD *PAIRING_nbits_to_md(int nbits)
-{
-	switch (nbits) {
-	case 1024: return EVP_sha1();
-	case 2048: return EVP_sha224();
-	case 3072: return EVP_sha256();
-	case 7680: return EVP_sha384();
-	case 15360: return EVP_sha512();
-	}
-	return NULL;
+# ifdef  __cplusplus
+extern "C" {
+# endif
+void zuc_standard_init(unsigned char k[], unsigned char iv[], uint32_t LFSR_S[], uint32_t BR_X[], uint32_t F_R[]);
+void zuc_standard_work(uint32_t LFSR_S[], uint32_t BR_X[], uint32_t F_R[], uint32_t pKeyStream[], int KeyStreamLen);
+void zuc_genkeystream(unsigned char k[], unsigned char iv[], uint32_t KeyStream[], int KeyStreamLen);
+void zuc_confidentiality(unsigned char CK[], uint32_t COUNT, unsigned char BEARER, unsigned
+                         char DIRECTION, uint32_t IBS[], int LENGTH, uint32_t OBS[]);
+uint32_t zuc_integrity(unsigned char IK[], uint32_t COUNT, unsigned char BEARER, unsigned
+                       char DIRECTION, uint32_t M[], int LENGTH);
+# ifdef  __cplusplus
 }
-
+# endif
+# endif
+# endif

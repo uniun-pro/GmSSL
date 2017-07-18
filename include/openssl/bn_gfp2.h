@@ -63,11 +63,13 @@ typedef struct {
 } BN_GFP2;
 
 BN_GFP2 *BN_GFP2_new(void);
+void BN_GFP2_free(BN_GFP2 *a);
 int BN_GFP2_copy(BN_GFP2 *r, const BN_GFP2 *a);
+int BN_GFP2_one(BN_GFP2 *a);
 int BN_GFP2_zero(BN_GFP2 *a);
 int BN_GFP2_is_zero(const BN_GFP2 *a);
 int BN_GFP2_equ(const BN_GFP2 *a, const BN_GFP2 *b);
-int BN_GF2P_add(BN_GFP2 *r, const BN_GFP2 *a, const BN_GFP2 *b, const BIGNUM *p, BN_CTX *ctx);
+int BN_GFP2_add(BN_GFP2 *r, const BN_GFP2 *a, const BN_GFP2 *b, const BIGNUM *p, BN_CTX *ctx);
 int BN_GFP2_sub(BN_GFP2 *r, const BN_GFP2 *a, const BN_GFP2 *b, const BIGNUM *p, BN_CTX *ctx);
 int BN_GFP2_mul(BN_GFP2 *r, const BN_GFP2 *a, const BN_GFP2 *b, const BIGNUM *p, BN_CTX *ctx);
 int BN_GFP2_sqr(BN_GFP2 *r, const BN_GFP2 *a, const BIGNUM *p, BN_CTX *ctx);
@@ -75,26 +77,18 @@ int BN_GFP2_inv(BN_GFP2 *r, const BN_GFP2 *a, const BIGNUM *p, BN_CTX *ctx);
 int BN_GFP2_div(BN_GFP2 *r, const BN_GFP2 *a, const BN_GFP2 *b, const BIGNUM *p, BN_CTX *ctx);
 int BN_GFP2_exp(BN_GFP2 *r, const BN_GFP2 *a, const BIGNUM *k, const BIGNUM *p, BN_CTX *ctx);
 int BN_GFP2_set_bn(BN_GFP2 *r, const BIGNUM *a, const BIGNUM *p, BN_CTX *ctx);
-int BN_GF2P_add_bn(BN_GFP2 *r, const BN_GFP2 *a, const BIGNUM *b, const BIGNUM *p,BN_CTX *ctx);
+int BN_GFP2_add_bn(BN_GFP2 *r, const BN_GFP2 *a, const BIGNUM *b, const BIGNUM *p,BN_CTX *ctx);
 int BN_GFP2_sub_bn(BN_GFP2 *r, const BN_GFP2 *a, const BIGNUM *b, const BIGNUM *p, BN_CTX *ctx);
 int BN_GFP2_mul_bn(BN_GFP2 *r, const BN_GFP2 *a, const BIGNUM *b, const BIGNUM *p, BN_CTX *ctx);
 int BN_GFP2_div_bn(BN_GFP2 *r, const BN_GFP2 *a, const BIGNUM *b, const BIGNUM *p, BN_CTX *ctx);
-void BN_GFP2_free(BN_GFP2 *a);
-
-
-int BN_GFP2_add_bn(BN_GFP2 *r, const BN_GFP2 *a, const BIGNUM *b,
-	const BIGNUM *p, BN_CTX *ctx);
-
 int BN_bn2gfp2(const BIGNUM *bn, BN_GFP2 *gfp2, const BIGNUM *p, BN_CTX *ctx);
 int BN_gfp22bn(const BN_GFP2 *gfp2, BIGNUM *bn, const BIGNUM *p, BN_CTX *ctx);
-
 /*
  * Canonical a = a0 + a1 * i
  * If order is 0 then output a0, a1, else output a1, a0, |a0| = |a1| = |p|.
  */
 int BN_GFP2_canonical(const BN_GFP2 *a, unsigned char *out, size_t *outlen,
 	int order, const BIGNUM *p, BN_CTX *ctx);
-
 
 #ifdef __cplusplus
 }
